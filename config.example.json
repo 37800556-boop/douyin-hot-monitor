@@ -1,0 +1,39 @@
+{
+  "_comment": "抖音爆款监控配置文件 - 复制为 config.json 并修改",
+  
+  "use_cdp_connect": true,
+  "chrome_remote_debugging_port": 18800,
+  "chrome_user_data_dir_independent": "C:\\Users\\你的用户名\\.openclaw\\browser\\openclaw\\user-data",
+  "wait_for_manual_login": false,
+  
+  "skills": {
+    "douyin_monitor": {
+      "_webhook_comment": "飞书机器人webhook地址，从飞书群设置-机器人中获取",
+      "webhook": "https://open.feishu.cn/open-apis/bot/v2/hook/你的webhook地址",
+      
+      "_target_url_comment": "巨量百应平台地址，一般不需要修改",
+      "target_url": "https://buyin.jinritemai.com/dashboard",
+      
+      "_category_list_comment": "监控的类目列表，根据需求调整",
+      "category_list": [
+        "家居日用",
+        "个人护理", 
+        "美妆",
+        "运动户外",
+        "3C数码家电"
+      ],
+      
+      "_target_keywords_comment": "监控关键词，匹配商品标题",
+      "target_keywords": ["塑形", "贴", "矫正"],
+      
+      "_scroll_times_comment": "每个类目滚动次数，越多数据越全但耗时越长",
+      "scroll_times": 12,
+      
+      "_dedup_hours_comment": "去重时间窗口，24小时内重复商品不再推送",
+      "dedup_hours": 24,
+      
+      "_dedup_log_comment": "去重记录文件路径",
+      "dedup_log_file": "dedup_records.json"
+    }
+  }
+}
