@@ -9,10 +9,9 @@ import json
 import os
 
 # 添加脚本目录到路径
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts"))
 
-from scripts.douyin_monitor import DouyinMonitor
-from playwright.sync_api import sync_playwright
+from douyin_monitor import run
 
 
 def load_config():
@@ -38,23 +37,26 @@ def main():
     
     # 加载配置
     config = load_config()
-    monitor_config = config.get('skills', {}).get('douyin_monitor', {})
     
-    if not monitor_config:
-        print("[错误] 配置中找不到 douyin_monitor 配置项")
-        return
+    # 公共配置
+    common_config = {
+        "chrome_user_data_dir": config.get("chrome_user_data_dir", ""),
+        "chrome_user_data_dir_independent": config.get("chrome_user_data_dir_independent", ""),
+        "use_independent_profile": config.get("use_independent_profile", True),
+        "use_cdp_connect": config.get("use_cdp_connect", False),
+        "chrome_remote_debugging_port": config.get("chrome_remote_debugging_port", 9222),
+        "wait_for_manual_login": config.get("wait_for_manual_login", False),
+        "login_wait_time": config.get("login_wait_time", 60),
+        "login_mode": config.get("login_mode", "manual"),
+    }
     
-    # 启动监控
-    with sync_playwright() as p:
-        monitor = DouyinMonitor(monitor_config)
-        results = monitor.monitor(p)
-        
-        print(f"\n{'=' * 60}")
-        print(f"监控完成！找到 {len(results)} 个匹配商品")
-        print(f"{'=' * 60}")
-        
-        for item in results:
-            print(f"- {item.get('title', '未知标题')}")
+    try:
+        run(config, common_config)
+    except Exception as e:
+        print(f"[错误] 监控执行失败: {e}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
 
 
 if __name__ == "__main__":

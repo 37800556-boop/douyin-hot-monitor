@@ -12,6 +12,7 @@ build/
 config.json
 dedup_records.json
 *.log
+link_debug_samples.json
 
 # IDE
 .vscode/
@@ -25,3 +26,4 @@ Thumbs.db
 
 # 浏览器数据
 chrome_profile/
+.chrome-profile/
